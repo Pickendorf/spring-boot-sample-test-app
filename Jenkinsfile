@@ -40,6 +40,7 @@ pipeline {
         echo 'stage deploy'
         junit '**/target/surefire-reports/TEST-*.xml'
         bat(script: 'docker run -p 3030:8080 testapp:latest', label: 'Docker run', returnStatus: true)
+        bat 'echo Application deployee sur le port 3030'
       }
     }
 
