@@ -6,6 +6,7 @@ pipeline {
         echo 'build stage'
         bat(script: 'mvnw -DskipTests clean install', returnStdout: true)
         bat 'echo Fin de build'
+        bat(script: 'docker build -t testapp:latest', label: 'Docker build', returnStatus: true)
       }
     }
 
@@ -38,6 +39,7 @@ pipeline {
       steps {
         echo 'stage deploy'
         junit '**/target/surefire-reports/TEST-*.xml'
+        bat(script: 'docker run -p 3030:8080 testapp:latest', label: 'Docker run', returnStatus: true)
       }
     }
 
